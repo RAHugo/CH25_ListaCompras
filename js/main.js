@@ -106,7 +106,7 @@ btnAgregar.addEventListener("click", function (event) {
         totalEnProductos += parseFloat(txtNumber.value);
         productosTotal.innerHTML = totalEnProductos;
         costoTotal += precio*parseFloat(txtNumber.value);
-        precioTotal.innerHTML = `$${costoTotal.toFixed(2)}`;
+        precioTotal.innerHTML = `$ ${costoTotal.toFixed(2)}`;
         localStorage.setItem("contadorProductos",contador); /* Agrega en el localStorage los resumenes */
         localStorage.setItem("totalEnProductos", totalEnProductos);
         localStorage.setItem("costoTotal",costoTotal.toFixed(2));/* toFixed es para redondear a 3 decimas */
@@ -127,4 +127,26 @@ txtNumber.addEventListener("blur", function (event) {/* Se sale del campo con bl
 txtNombre.addEventListener("blur", function (event) {/* Se sale del campo con blur */
     event.preventDefault();
     txtNombre.value = txtNombre.value.trim();
+});
+
+window.addEventListener("load", function(event){
+    if(localStorage.getItem("contadorProductos")==null){ /* Para poner los valores en ceros cuando se eliminan los valores del localStorage desde la pagina */
+        localStorage.setItem("contadorProductos", "0");
+    }
+    if(localStorage.getItem("totalEnProductos")==null){
+        localStorage.setItem("totalEnProductos", "0");
+    }
+    if(localStorage.getItem("costoTotal")==null){
+        localStorage.setItem("costoTotal", "0");
+    }
+
+
+
+    contador = parseInt(localStorage.getItem("contadorProductos")); /* Se deben convertir para que pueda funcionar */
+    totalEnProductos = parseInt(localStorage.getItem("totalEnProductos", totalEnProductos));
+    costoTotal = parseFloat(localStorage.getItem("costoTotal"));
+
+    contadorProductos.innerHTML = contador;
+    productosTotal.innerHTML = totalEnProductos;
+    precioTotal.innerHTML = `$ ${costoTotal}`;
 });
