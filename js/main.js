@@ -1,4 +1,3 @@
-// El código va aquí -> 
 /* Creación de variables */
 let txtNombre = document.getElementById("Name");
 let txtNumber = document.getElementById("Number");
@@ -6,42 +5,118 @@ let txtNumber = document.getElementById("Number");
 let btnAgregar = document.getElementById("btnAgregar");
 let btnClear = document.getElementById("btnClear");
 
-let alertValidacionesTexto = document.getElementById("alertValidacionesTexto");
 let alertValidaciones = document.getElementById("alertValidaciones");
+let alertValidacionesTexto = document.getElementById("alertValidacionesTexto");
+
+let tabla = document.getElementById("tablaListaCompras");
+let cuerpoTabla = tabla.getElementsByTagName("tbody");
+
+let contadorProductos = document.getElementById("contadorProductos");
+let totalProductos = document.getElementById("totalProductos");
+let productosTotal = document.getElementById("productosTotal");
+let precioTotal = document.getElementById("precioTotal");
+
+let isValid = true;
+let idTimeOut; /* Valiable del setTimeout */
+let precio = 0;
+let contador = 0;
+let totalEnProductos = 0;
+let costoTotal = 0;
 
 /* Boton de limpiar */
 btnClear.addEventListener("click", function (event) {
     event.preventDefault();
     txtNombre.value = "";
     txtNumber.value = "";
+    cuerpoTabla[0].innerHTML=""
+    contador = 0;
+    totalEnProductos = 0;
+    costoTotal = 0;
+    contadorProductos.innerHTML = "0";
+    productosTotal.innerHTML = "0";
+    precioTotal.innerHTML = "$ 0";
+    localStorage.setItem("contadorProductos",contador); /* Agrega en el localStorage los resumenes */
+    localStorage.setItem("totalEnProductos", totalEnProductos);
+    localStorage.setItem("costoTotal",costoTotal.toFixed(2));/* toFixed es para redondear a 3 decimas */
 });
+
+/* Condiciones para ejecurtar condiciones sobre los números */
+function validarCantidad() {
+    if (txtNumber.value.length == 0) { /* Igual a cero regresa falso */
+        return false;
+    }
+    if (isNaN(txtNumber.value)) { /* No es un número, regresa un falso */
+        return false;
+    }
+    if (parseFloat(txtNumber.value) <= 0) {
+        return false;
+    }
+    return true;
+}
+
+/* Función para generar un precio de manera aleatoria */
+function getPrecio() {
+    return Math.floor(Math.random() * 50 * 100) / 100;
+}//.floor quita los decimales 
 
 /* Boton de agregar */
 btnAgregar.addEventListener("click", function (event) {
     event.preventDefault();
+    isValid = true;
+    clearTimeout(idTimeOut); /* Cancela la función del setTimeout */
     alertValidacionesTexto.innerHTML = "";
-    alertValidaciones.style.display ="none";
-    let lista = "Los siguientes campos deben ser llenados correctamente:</ul>"
-    if (txtNombre.value.length == 0) {
+    alertValidaciones.style.display = "none";
+    let lista = "Los siguientes campos deben ser llenados correctamente: <ul>";
+    if (txtNombre.value.length <= 2) {
         txtNombre.style.border = "solid thin red";/* thin es tipo de borde */
-        lista += "<li>Se debe escribir un nombre válido</li>"
-        /*alertValidacionesTexto.innerHTML="Se debe escribir un nombre valido"; */
-        alertValidacionesTexto.style.display = "block";
+        lista += "<li> Se debe escribir un nombre válido.</li>";
+        alertValidaciones.style.display = "block";
+        isValid = false;
     } else {
         txtNombre.style.border = "";
     }
-
-    if (txtNumber.value.length == 0) {
+    if (!validarCantidad()) { /* Se utiliza la función anterior para hacer la validación (! es una negación de la función) */
         txtNumber.style.border = "solid thin red";
-        lista += "<li>Se debe escribir un número válido</li>"
+        lista += "<li> Se debe escribir un número válido. </li>";
         /*         alertValidaciones.innerHTML="Se debe escribir un número valido"; */
         alertValidaciones.style.display = "block";
+        isValid = false;
     } else {
         txtNumber.style.border = "";
     }
     lista += "</ul>";
-    alertValidaciones.insertAdjacentHTML("beforeend", lista);
+    alertValidacionesTexto.insertAdjacentHTML("beforeend", lista);
+    idTimeOut = setTimeout(function () {
+        alertValidaciones.style.display = "none"; /* Acciones que se debe realizar */
+    }, 5000); /* Tiempo en milisegundos */
+    if (isValid) {
+        precio = getPrecio();
+        contador++;
+        let row = `<tr>
+               <th>${contador}</th>
+               <td>${txtNombre.value}</td>
+               <td>${txtNumber.value}</td>
+               <td>$${precio}</td>
+               </tr>`; /* El th lo pone en negritas */
+
+        
+
+        cuerpoTabla[0].insertAdjacentHTML("beforeend", row); /* Agrega elementos a la tabla 0 */
+        contadorProductos.innerHTML=contador; /* Pone en acción el circulo rojo de Resúmen */
+        totalEnProductos += parseFloat(txtNumber.value);
+        productosTotal.innerHTML = totalEnProductos;
+        costoTotal += precio*parseFloat(txtNumber.value);
+        precioTotal.innerHTML = `$${costoTotal.toFixed(2)}`;
+        localStorage.setItem("contadorProductos",contador); /* Agrega en el localStorage los resumenes */
+        localStorage.setItem("totalEnProductos", totalEnProductos);
+        localStorage.setItem("costoTotal",costoTotal.toFixed(2));/* toFixed es para redondear a 3 decimas */
+        txtNombre.value = "";
+        txtNumber.value = "";
+        txtNombre.focus();
+
+    }
 });
+
 
 /* Boton para salirse del foto */
 txtNumber.addEventListener("blur", function (event) {/* Se sale del campo con blur */
