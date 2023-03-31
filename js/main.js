@@ -102,9 +102,9 @@ btnAgregar.addEventListener("click", function (event) {
                <td>$${precio}</td>
                </tr>`; /* El th lo pone en negritas */
         let elemento = `{
-                        "id"      :        ${contador},
-                        "nombre"  :    "${txtNombre.value}",
-                        "cantidad":  "${txtNumber.value}",
+                        "id"      :        ${id},
+                        "nombre"  :    "${nombre}",
+                        "cantidad":  "${cantidad}",
                         "precio"  :      "${precio}"
         }`; 
         datos.push(JSON.parse(elemento));
@@ -156,8 +156,8 @@ window.addEventListener("load", function (event) {
         datos.forEach(r => {
             let row = `<tr>
                <th> ${r.id}</th>
-               <td> ${r.txtNombre.value}</td>
-               <td> ${r.txtNumber.value}</td>
+               <td> ${r.nombre}</td>
+               <td> ${r.cantidad}</td>
                <td>$${r.precio}</td>
                </tr>`;
                cuerpoTabla[0].insertAdjacentHTML("beforeend", row);
