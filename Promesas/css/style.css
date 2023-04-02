@@ -1,5 +1,38 @@
-.col{
-    display: flex;
-    justify-content: center !important;
-  }
-  
+/* Modificaciones para el estilo de la pagina */
+
+body {
+  background: #000000;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #434343, #000000);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #434343, #000000);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+section {
+  margin-top: 30px;
+}
+
+h1 {
+  align-items: center;
+  text-align: center;
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+p {
+  font-family: 'Bebas Neue', cursive;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+/* Modificaciones de las trajetas de la página */
+
+.col {
+  display: flex;
+  justify-content: center !important;
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+}
