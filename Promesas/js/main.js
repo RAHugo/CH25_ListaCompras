@@ -48,20 +48,20 @@ function crearTrajetas(prods) {
                         <p class="card-text">${element.description}</p>
                         <p class="card-text"><strong>$${element.price}</strong></p>
                         <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal_${element.id}">
+<button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#exampleModal_${element.id}">
   Más información
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="#exampleModal_${element.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal_${element.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <h1 style="color: black;" class="modal-title fs-5" id="staticBackdropLabel">${element.title}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <p><strong>$${element.description}</strong></p>
+      <p style="color: black;"><strong>${element.description}</strong></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
